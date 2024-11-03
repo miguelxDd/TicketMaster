@@ -28,11 +28,15 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url('/contacto') }}">Contacto</a>
                     </li>
+                    <!-- nombre del usuario autenticado-->
+
+                    
+
 
                     <!-- Perfil de usuario con dropdown -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="{{ asset('images/profile-placeholder.png') }}" alt="Perfil" width="30" height="30" class="rounded-circle me-2">
+                            <img src="{{ Auth::user()->profile_url }}" alt="Perfil" width="30" height="30" class="rounded-circle me-2">
                             <span>Perfil</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">

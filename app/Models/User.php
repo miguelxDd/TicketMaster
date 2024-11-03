@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Log;
 
 class User extends Authenticatable
 {
@@ -58,5 +59,11 @@ class User extends Authenticatable
     public function roles()
     {
         return $this->belongsToMany(Role::class);
+    }
+    public function getProfileUrlAttribute()
+    {
+        $url = $this->foto_perfil ? asset('storage/perfiles/' . $this->foto_perfil) : asset('storage/perfiles/default-profile.png');
+        Log::info('Profile URL: ' . $url);
+        return $url;
     }
 }
