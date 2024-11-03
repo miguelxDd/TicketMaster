@@ -6,6 +6,7 @@
     <title>Ticket Master - Login y Registro</title>
     <link rel="stylesheet" href="css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 </head>
 <body>
     <div class="container">
@@ -17,7 +18,7 @@
         
                 <!-- Checkbox para seleccionar si es una empresa -->
                 <div class="form-group full-width">
-                    <input type="checkbox" id="is_company" name="is_company" onchange="toggleCompanyFields()" />
+                    <input type="checkbox" id="is_company" name="is_company" value="1" onchange="toggleCompanyFields()" />
                     <label for="is_company">¿Es usted una empresa?</label>
                 </div>
         
@@ -94,8 +95,6 @@
             </form>
         </div>
         
-        
-        
         <div class="form-container sign-in-container">
             <form action="{{ route('login') }}" method="POST" class="needs-validation" novalidate>
                 @csrf
@@ -131,7 +130,30 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="js/script.js"></script>
+    <script>
+        // Pasar los errores de validación a JavaScript
+        @if ($errors->any())
+            const errors = @json($errors->toArray());
+        @else
+            const errors = {};
+        @endif
     
+        // Mostrar los errores de validación en el frontend usando SweetAlert2
+        document.addEventListener('DOMContentLoaded', () => {
+            if (Object.keys(errors).length > 0) {
+                let errorMessages = '';
+                for (const [field, messages] of Object.entries(errors)) {
+                    errorMessages += `<strong>${field}:</strong> ${messages.join('<br>')}<br>`;
+                }
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Errores de validación',
+                    html: errorMessages,
+                });
+            }
+        });
+    </script>
 </body>
 </html>

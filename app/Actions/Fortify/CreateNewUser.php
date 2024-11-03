@@ -20,6 +20,17 @@ class CreateNewUser implements CreatesNewUsers
      */
     public function create(array $input)
     {
+        Log::info('Starting user creation process', ['input' => $input]);
+
+        // Establecer valor predeterminado para estado si no está presente
+        if (!isset($input['estado'])) {
+            $input['estado'] = 1;
+      
+        }  //Estableciendo el valor de is_company en 0 si no está presente
+        if (!isset($input['is_company'])) {
+            $input['is_company'] = 'comprador';
+        }
+
         // Definir los mensajes de error personalizados
         $messages = [
             'nombre.required' => 'El nombre es obligatorio.',
@@ -54,9 +65,10 @@ class CreateNewUser implements CreatesNewUsers
             'password' => ['required', 'string', 'confirmed', 'min:8'],
             'fecha_nacimiento' => ['nullable', 'date'],
             'dui' => ['nullable', 'string', 'size:9', Rule::unique(User::class), 'regex:/^\d{9}$/'],
-    'nit' => ['nullable', 'string', 'size:14', Rule::unique(User::class), 'regex:/^\d{14}$/'],
-    'telefono' => ['required', 'string', 'size:11', 'regex:/^\d{11}$/'],
-            'estado' => ['int'],
+            'nit' => ['nullable', 'string', 'size:14', Rule::unique(User::class), 'regex:/^\d{14}$/'],
+            'telefono' => ['required', 'string', 'size:11', 'regex:/^\d{11}$/'],
+            'estado' => ['required', 'boolean'],
+            'tipo_usuario' => ['nullable', 'string', 'in:comprador,organizador'],
             'foto_perfil' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
         ], $messages);
 
@@ -72,9 +84,19 @@ class CreateNewUser implements CreatesNewUsers
                 $filename = time() . '_' . $file->getClientOriginalName();
                 $path = $file->storeAs('public/perfiles', $filename);
                 $input['foto_perfil'] = $filename;
+                Log::info('Profile picture uploaded successfully', ['filename' => $filename]);
             } else {
                 $input['foto_perfil'] = null;
             }
+
+            // Agregar registro de depuración para verificar el valor de is_company
+            Log::info('Valor de is_company', ['is_company' => $input['is_company']]);
+
+            // Determinar el tipo de usuario
+            $tipoUsuario = isset($input['is_company']) && $input['is_company'] == '1' ? 'organizador' : 'comprador';
+
+            // Agregar registro de depuración para verificar el valor de tipo_usuario
+            Log::info('Valor de tipo_usuario antes de crear el usuario', ['tipo_usuario' => $tipoUsuario]);
 
             // Crear y devolver el nuevo usuario
             $user = User::create([
@@ -85,9 +107,9 @@ class CreateNewUser implements CreatesNewUsers
                 'dui' => $input['dui'],
                 'nit' => $input['nit'],
                 'telefono' => $input['telefono'],
-                'estado' => '1',
-
+                'estado' => $input['estado'],
                 'foto_perfil' => $input['foto_perfil'],
+                'tipo_usuario' => $tipoUsuario,
             ]);
 
             Log::info('User created successfully', ['user' => $user]);

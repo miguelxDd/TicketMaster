@@ -36,9 +36,17 @@
                             <span>Perfil</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="{{ route('perfil.editar') }}"><i class="fas fa-user-edit me-2"></i>Editar Perfil</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-user-edit me-2"></i>Editar Perfil</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="{{ route('logout') }}"><i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión</a></li>
+                            <li>
+                                <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item">
+                                        <i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión
+                                    </button>
+                                </form>
+                            </li>
+                            
                         </ul>
                     </li>
                 </ul>

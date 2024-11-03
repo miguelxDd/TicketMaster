@@ -31,10 +31,13 @@
                 </div>
             @endif
             <!-- cerrar sesion -->
-            <button class="absolute top-6 right-6 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
-                <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                    Cerrar sesión
-                </a>
+            
+                <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                    @csrf
+                    <button type="submit" class="dropdown-item">
+                        <i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión
+                    </button>
+                </form>
 
 
 <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

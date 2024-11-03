@@ -28,6 +28,7 @@ class User extends Authenticatable
         'direccion',
         'estado',
         'foto_perfil',
+        'tipo_usuario',
 
     ];
 
@@ -54,4 +55,8 @@ class User extends Authenticatable
     protected $attributes = [
         'estado' => 1, // Valor predeterminado para estado
     ];
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
 }
