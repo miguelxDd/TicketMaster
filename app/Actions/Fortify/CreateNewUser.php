@@ -81,7 +81,7 @@ class CreateNewUser implements CreatesNewUsers
             // Manejar la subida de la foto de perfil
             if (isset($input['foto_perfil'])) {
                 $file = $input['foto_perfil'];
-                $filename = time() . '_' . $file->getClientOriginalName();
+                $filename = time() . '_' .uniqid(). $file->getClientOriginalName();
                 $path = $file->storeAs('public/perfiles', $filename);
                 $input['foto_perfil'] = $filename;
                 Log::info('Profile picture uploaded successfully', ['filename' => $filename]);
