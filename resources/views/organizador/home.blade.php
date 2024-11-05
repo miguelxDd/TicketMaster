@@ -1,13 +1,60 @@
-@extends('base')
-@section('title', 'Inicio Organizador')
-@section('content')
-<h1>
-    Bienvenido, {{ Auth::user()->nombre }} (Organizador)
-</h1>
-<p>Esta es la página de inicio para los organizadores.</p>
-<a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar Sesión</a>
+@extends('baseOrganizador')
 
-<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-    @csrf
-</form>
+@section('title', 'Gestión de Eventos || Ticket Master')
+
+@section('content')
+    <div class="container my-5">
+        <!-- Gestión de Eventos -->
+        <div class="mt-5">
+            <h2>Gestión de Eventos</h2> 
+            <a href="{{ url('/organizador/eventos/crear') }}" class="btn btn-success">Crear Evento</a>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Fecha</th>
+                        <th>Ubicación</th>
+                        <th>Localidades</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Concierto Rock</td>
+                        <td>2024-12-15</td>
+                        <td>Estadio Nacional</td>
+                        <td>Ver</td>
+                        <td>Activo</td>
+                        <td>
+                            <a href="#" class="btn btn-primary btn-sm">Editar</a>
+                            <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal">Eliminar</button>
+                        </td>
+                    </tr>
+                    <!-- Agrega más filas de eventos según sea necesario -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmación de Eliminación -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Confirmar Eliminación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ¿Estás seguro de que deseas eliminar este evento?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
+
+

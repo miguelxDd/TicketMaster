@@ -27,8 +27,16 @@ class ControllerOrganizador extends Controller
     {
         $user = Auth::user();
         Log::info('User tipo_usuario', ['tipo_usuario' => $user->tipo_usuario]);
-
         return view('organizador.home');
     }
-    
+
+    public function dashboard()
+    {
+        return view('organizador.dashboard');
+    }
+    public function crearEvento()
+    {
+        return view('organizador.crearEvento');
+    }
+
 }

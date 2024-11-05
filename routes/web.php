@@ -2,6 +2,7 @@
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ControllerOrganizador;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\EventoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\RedirectBasedOnUserType;
 
@@ -19,11 +20,12 @@ Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 // Ruta de home con middleware para redirigir basado en el tipo de usuario
 Route::middleware(['auth', RedirectBasedOnUserType::class])->group(function () {
-    Route::get('/home', function () {
-        // Este código no se ejecutará ya que el middleware redirigirá antes de llegar aquí
-    })->name('home');
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::get('/comprador/home', [HomeController::class, 'index'])->name('comprador.home');
     Route::get('/organizador/home', [ControllerOrganizador::class, 'index'])->name('organizador.home');
+    Route::get('/organizador/dashboard', [ControllerOrganizador::class, 'dashboard'])->name('organizador.dashboard');
+    Route::get('/organizador/crearEvento', [ControllerOrganizador::class, 'crearEvento'])->name('organizador.crearEvento');
+    Route::post('organizador/guardar', [EventoController::class, 'guardar'])->name('eventos.guardar');
     Route::get('/otro-lugar', function () {
         return view('otro-lugar');
     });
