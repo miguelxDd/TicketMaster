@@ -27,6 +27,8 @@ Route::middleware(['auth', RedirectBasedOnUserType::class])->group(function () {
     Route::get('/organizador/crearEvento', [ControllerOrganizador::class, 'crearEvento'])->name('organizador.crearEvento');
     Route::post('organizador/guardar', [EventoController::class, 'guardar'])->name('eventos.guardar');
     Route::get('organizador/misEventos', [EventoController::class, 'misEventos'])->name('organizador.misEventos');
+    Route::get('eventos/{id}/editar', [EventoController::class, 'editar'])->name('eventos.editar');
+    Route::delete('organizador/eventos/{id}', [EventoController::class, 'eliminar'])->name('eventos.eliminar');
     Route::get('/otro-lugar', function () {
         return view('otro-lugar');
     });

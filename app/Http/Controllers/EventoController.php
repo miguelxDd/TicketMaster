@@ -77,4 +77,20 @@ class EventoController extends Controller
         $eventos = Evento::where('organizador_id', Auth::id())->get();
         return view('organizador.misEventos', ['eventos' => $eventos]);
     }
+    //editar y eliminar
+    public function editar($id)
+    {
+        // Obtener el evento por su ID
+        $evento = Evento::findOrFail($id);
+        // Retornar la vista con los datos del evento
+        return view('organizador.editarEvento', compact('evento'));
+    }
+
+    public function eliminar($id)
+    {
+        // Eliminar el evento por su ID
+        $evento = Evento::findOrFail($id);
+        $evento->delete();
+        return redirect()->route('organizador.misEventos')->with('success', 'Evento eliminado exitosamente.');
+    }
 }

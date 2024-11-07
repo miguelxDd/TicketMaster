@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use App\Models\Evento;
 
 class ControllerOrganizador extends Controller
 {
@@ -27,7 +28,9 @@ class ControllerOrganizador extends Controller
     {
         $user = Auth::user();
         Log::info('User tipo_usuario', ['tipo_usuario' => $user->tipo_usuario]);
-        return view('organizador.home');
+
+        $eventos = Evento::where('organizador_id', $user->id)->get();
+        return view('organizador.home', ['eventos' => $eventos]);
     }
 
     public function dashboard()
