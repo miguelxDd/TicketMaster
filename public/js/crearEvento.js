@@ -185,9 +185,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Asegurarse de que el valor del checkbox se envía correctamente
         const estadoEventoCheckbox = document.querySelector('#estadoEvento');
-        if (!estadoEventoCheckbox.checked) {
-            estadoEventoCheckbox.value = 'inactivo';
-        }
+        const hiddenEstadoEvento = document.createElement('input');
+        hiddenEstadoEvento.type = 'hidden';
+        hiddenEstadoEvento.name = 'estadoEvento';
+        hiddenEstadoEvento.value = estadoEventoCheckbox.checked ? 'activo' : 'finalizado';
+        form.appendChild(hiddenEstadoEvento);
+
+        console.log('Estado del checkbox antes de enviar:', estadoEventoCheckbox.checked, estadoEventoCheckbox.value);
+        console.log('Valor del campo oculto antes de enviar:', hiddenEstadoEvento.value);
+
+        // Agregar registro de depuración para ver todos los datos enviados
+        const formData = new FormData(form);
+        formData.forEach((value, key) => {
+            console.log(key, value);
+        });
 
         form.submit();
     });

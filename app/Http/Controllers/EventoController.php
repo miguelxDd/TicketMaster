@@ -22,9 +22,9 @@ class EventoController extends Controller
             'descripcionEvento' => 'required|string',
             'fechaEvento' => 'required|date|after:now|before:'.now()->addYears(2),
             'ubicacionEvento' => 'required|string',
-            'estadoEvento' => 'in:activo,cancelado,finalizado',
+            'estadoEvento' => 'required|in:activo,cancelado,finalizado',
             'localidades.*.nombre' => 'required|string',
-            'localidades.*.precio' => 'required|numeric|regex:/^\d+(\.\d{1,2})?$/',
+            'localidades.*.precio' => 'required|numeric',
             'localidades.*.capacidad' => 'required|integer|min:1',
         ]);
 

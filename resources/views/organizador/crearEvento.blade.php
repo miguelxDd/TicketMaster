@@ -1,6 +1,17 @@
 @extends('baseOrganizador')
 
 @section('title', 'Crear Evento || Ticket Master')
+@section('personalizar-navbar-items')
+<li class="nav-item">
+    <a class="nav-link" href="{{ url('organizador/home') }}">Inicio</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{{ url('organizador/MisEventos') }}">Eventos</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{{ url('organizador/contacto') }}">Contacto</a>
+</li>
+@endsection
 
 @section('content')
 <!-- Creación de Evento en Tabs (Pasos) -->
@@ -51,6 +62,7 @@
                 <input class="form-check-input" type="checkbox" id="estadoEvento" name="estadoEvento" value="activo" checked>
                 <label class="form-check-label" for="estadoEvento">Estado Activo</label>
             </div>
+            <input type="hidden" name="estadoEvento" value="finalizado">
             <button type="button" class="btn btn-primary">Siguiente</button>
         </div>
 
@@ -63,7 +75,7 @@
             </div>
             <div class="mb-3">
                 <label for="precioLocalidad" class="form-label">Precio</label>
-                <input type="number" class="form-control" id="precioLocalidad" name="precioLocalidad">
+                <input type="number" class="form-control" id="precioLocalidad" name="precioLocalidad" step="0.01">
             </div>
             <div class="mb-3">
                 <label for="capacidadLocalidad" class="form-label">Capacidad</label>

@@ -1,13 +1,23 @@
 @extends('baseOrganizador')
 
 @section('title', 'Gestión de Eventos || Ticket Master')
-
+@section('personalizar-navbar-items')
+<li class="nav-item">
+    <a class="nav-link" href="{{ url('#') }}">Inicio</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{{ url('organizador/MisEventos') }}">Eventos</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{{ url('organizador/contacto') }}">Contacto</a>
+</li>
+@endsection
 @section('content')
     <div class="container my-5">
         <!-- Gestión de Eventos -->
         <div class="mt-5">
             <h2>Gestión de Eventos</h2> 
-            <a href="{{ url('/organizador/eventos/crear') }}" class="btn btn-success">Crear Evento</a>
+            <a href="{{ url('/organizador/crearEvento') }}" class="btn btn-success">Crear Evento</a>
             <table class="table table-striped">
                 <thead>
                     <tr>
