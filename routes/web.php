@@ -26,6 +26,7 @@ Route::middleware(['auth', RedirectBasedOnUserType::class])->group(function () {
     Route::get('/organizador/dashboard', [ControllerOrganizador::class, 'dashboard'])->name('organizador.dashboard');
     Route::get('/organizador/crearEvento', [ControllerOrganizador::class, 'crearEvento'])->name('organizador.crearEvento');
     Route::post('organizador/guardar', [EventoController::class, 'guardar'])->name('eventos.guardar');
+    Route::get('organizador/misEventos', [EventoController::class, 'misEventos'])->name('organizador.misEventos');
     Route::get('/otro-lugar', function () {
         return view('otro-lugar');
     });

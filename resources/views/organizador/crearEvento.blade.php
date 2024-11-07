@@ -6,7 +6,7 @@
     <a class="nav-link" href="{{ url('organizador/home') }}">Inicio</a>
 </li>
 <li class="nav-item">
-    <a class="nav-link" href="{{ url('organizador/MisEventos') }}">Eventos</a>
+    <a class="nav-link" href="{{ url('organizador/misEventos') }}">Eventos</a>
 </li>
 <li class="nav-item">
     <a class="nav-link" href="{{ url('organizador/contacto') }}">Contacto</a>

@@ -72,4 +72,9 @@ class EventoController extends Controller
 
         return redirect()->route('organizador.home')->with('success', 'Evento creado exitosamente.');
     }
+    public function misEventos()
+    {
+        $eventos = Evento::where('organizador_id', Auth::id())->get();
+        return view('organizador.misEventos', ['eventos' => $eventos]);
+    }
 }
