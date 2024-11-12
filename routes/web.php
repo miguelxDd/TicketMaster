@@ -30,6 +30,9 @@ Route::middleware(['auth', RedirectBasedOnUserType::class])->group(function () {
     Route::get('organizador/{id}/editar', [EventoController::class, 'editar'])->name('eventos.editar');
     Route::put('organizador/eventos/{id}', [EventoController::class, 'actualizar'])->name('eventos.actualizar');
     Route::delete('organizador/eventos/{id}', [EventoController::class, 'eliminar'])->name('eventos.eliminar');
+    //terminos 
+    Route::get('/terminos', [HomeController::class, 'terminos'])->name('terminos');
+    Route::get('/politicas', [HomeController::class, 'politicas'])->name('politicas');
     Route::get('/otro-lugar', function () {
         return view('otro-lugar');
     });

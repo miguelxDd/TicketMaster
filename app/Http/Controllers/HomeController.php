@@ -33,6 +33,16 @@ class HomeController extends Controller
 
         return view('comprador.home');
     }
+    //terminos
+    public function terminos()
+    {
+        return view('terminos');
+    }
+
+    public function politicas()
+    {
+        return view('politicas');
+    }
 
 
 }

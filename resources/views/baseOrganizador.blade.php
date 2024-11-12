@@ -13,7 +13,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="#">Ticket Master</a>
+            <a class="navbar-brand" href="/organizador/home">Ticket Master</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -40,7 +40,7 @@
 
     <!-- Footer -->
     <footer class="bg-dark text-white text-center py-3">
-        <p class="mb-0">Ticket Master 2024 © | <a href="{{ url('/terminos') }}" class="text-decoration-none text-white">Términos</a> | <a href="{{ url('/politica') }}" class="text-decoration-none text-white">Política de Privacidad</a></p>
+        <p class="mb-0">Ticket Master 2024 © | <a href="{{ url('/terminos') }}" class="text-decoration-none text-white">Términos</a> | <a href="{{ url('/politicas') }}" class="text-decoration-none text-white">Política de Privacidad</a></p>
     </footer>
 
     <!-- Modal de confirmación de cierre de sesión -->
