@@ -83,7 +83,7 @@ class EventoController extends Controller
         // Obtener el evento por su ID
         $evento = Evento::findOrFail($id);
         // Retornar la vista con los datos del evento
-        return view('organizador.editarEvento', compact('evento'));
+        return view('organizador.editar', compact('evento'));
     }
 
     public function eliminar($id)
@@ -91,6 +91,62 @@ class EventoController extends Controller
         // Eliminar el evento por su ID
         $evento = Evento::findOrFail($id);
         $evento->delete();
-        return redirect()->route('organizador.misEventos')->with('success', 'Evento eliminado exitosamente.');
+        return redirect()->route('organizador.home')->with('success', 'Evento eliminado exitosamente.');
+    }
+    public function actualizar(Request $request, $id)
+    {
+        Log::info('Iniciando actualización del evento', ['evento_id' => $id]);
+
+        $evento = Evento::findOrFail($id);
+        Log::info('Evento encontrado', ['evento' => $evento]);
+
+        try {
+            $validatedData = $request->validate([
+                'nombreEvento' => 'required|string|min:5|max:200',
+                'descripcionEvento' => 'required|string',
+                'fechaEvento' => 'required|date|after:now|before:'.now()->addYears(2),
+                'ubicacionEvento' => 'required|string',
+                'estadoEvento' => 'required|in:activo,cancelado,finalizado',
+                'localidades.*.nombre' => 'required|string',
+                'localidades.*.precio' => 'required|numeric',
+                'localidades.*.capacidad' => 'required|integer|min:1',
+            ]);
+
+            Log::info('Validación completada', ['validated_data' => $validatedData]);
+
+            $evento->nombre = $request->input('nombreEvento');
+            $evento->descripcion = $request->input('descripcionEvento');
+            $evento->fecha = $request->input('fechaEvento');
+            $evento->ubicacion = $request->input('ubicacionEvento');
+            $evento->estado = $request->input('estadoEvento');
+            $evento->save();
+
+            Log::info('Evento actualizado', ['evento' => $evento]);
+
+            foreach ($request->input('localidades') as $localidadId => $localidadData) {
+                if (strpos($localidadId, 'new_') === false) {
+                    $localidad = Localidad::findOrFail($localidadId);
+                    Log::info('Actualizando localidad existente', ['localidad_id' => $localidadId]);
+                } else {
+                    $localidad = new Localidad();
+                    $localidad->evento_id = $evento->id;
+                    Log::info('Creando nueva localidad', ['localidad_data' => $localidadData]);
+                }
+                $localidad->nombre = $localidadData['nombre'];
+                $localidad->precio = $localidadData['precio'];
+                $localidad->capacidad = $localidadData['capacidad'];
+                $localidad->asientos_disponibles = $localidadData['capacidad']; // Asegurarse de establecer asientos_disponibles
+                $localidad->save();
+
+                Log::info('Localidad guardada', ['localidad' => $localidad]);
+            }
+
+            Log::info('Actualización del evento completada', ['evento_id' => $id]);
+
+            return redirect()->route('organizador.misEventos')->with('success', 'Evento actualizado exitosamente.');
+        } catch (\Exception $e) {
+            Log::error('Error durante la actualización del evento:', ['error' => $e->getMessage()]);
+            return redirect()->back()->with('error', 'Error durante la actualización del evento.')->withInput();
+        }
     }
 }

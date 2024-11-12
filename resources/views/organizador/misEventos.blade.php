@@ -11,29 +11,31 @@
 <li class="nav-item">
     <a class="nav-link" href="{{ url('organizador/contacto') }}">Contacto</a>
 </li>
+
 @endsection
 
 @section('content')
 <div class="container my-5">
     <h1 class="text-center mb-4">Mis Eventos</h1>
 
-    <!-- Tarjetas de eventos -->
-    <div class="row mb-4">
+    <!-- Tarjetas de eventos con scroll -->
+    <div class="row mb-4" style="max-height: 500px; overflow-y: auto;">
         @foreach($eventos as $evento)
-        <div class="col-md-4 mb-4">
-            <div class="card" style="width: 100%;">
-                <img src="https://via.placeholder.com/150" class="card-img-top" alt="Imagen del Evento">
+        <div class="col-md-4 mb-4 d-flex align-items-stretch">
+            <div class="card shadow-sm border-0 rounded" style="width: 100%; background-color: #f9f9f9;">
+                <div class="card-header text-white" style="background: linear-gradient(135deg, #ff4b2b, #ff416c);">
+                    <h5 class="mb-0">{{ $evento->nombre }}</h5>
+                </div>
                 <div class="card-body">
-                    <h5 class="card-title">{{ $evento->nombre }}</h5>
-                    <p class="card-text">{{ $evento->descripcion }}</p>
+                    <p class="card-text">{{ Str::limit($evento->descripcion, 80, '...') }}</p>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Fecha: {{ $evento->fecha }}</li>
-                    <li class="list-group-item">Ubicación: {{ $evento->ubicacion }}</li>
-                    <li class="list-group-item">Estado: {{ $evento->estado }}</li>
+                    <li class="list-group-item">📅 Fecha: {{ $evento->fecha }}</li>
+                    <li class="list-group-item">📍 Ubicación: {{ $evento->ubicacion }}</li>
+                    <li class="list-group-item">📌 Estado: <span class="badge bg-primary">{{ ucfirst($evento->estado) }}</span></li>
                 </ul>
-                <div class="card-body">
-                    <a href="#" class="card-link" data-bs-toggle="modal" data-bs-target="#modalEvento{{ $evento->id }}">Ver más</a>
+                <div class="card-body text-center">
+                    <a href="#" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalEvento{{ $evento->id }}">Ver más</a>
                 </div>
             </div>
         </div>
@@ -49,14 +51,14 @@
                     <div class="modal-body">
                         <p>{{ $evento->descripcion }}</p>
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Fecha: {{ $evento->fecha }}</li>
-                            <li class="list-group-item">Ubicación: {{ $evento->ubicacion }}</li>
-                            <li class="list-group-item">Estado: {{ $evento->estado }}</li>
-                            <li class="list-group-item">Localidades:</li>
+                            <li class="list-group-item">📅 Fecha: {{ $evento->fecha }}</li>
+                            <li class="list-group-item">📍 Ubicación: {{ $evento->ubicacion }}</li>
+                            <li class="list-group-item">📌 Estado: <span class="badge bg-primary">{{ ucfirst($evento->estado) }}</span></li>
+                            <li class="list-group-item">🎟️ Localidades:</li>
                             @foreach($evento->localidades as $localidad)
                             <li class="list-group-item">
                                 <strong>{{ $localidad->nombre }}</strong><br>
-                                Precio: {{ $localidad->precio }}<br>
+                                Precio: ${{ number_format($localidad->precio, 2) }}<br>
                                 Capacidad: {{ $localidad->capacidad }}<br>
                                 Asientos disponibles: {{ $localidad->asientos_disponibles }}
                             </li>
