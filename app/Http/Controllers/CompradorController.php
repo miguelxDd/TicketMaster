@@ -20,6 +20,7 @@ class CompradorController extends Controller
         $eventos = Evento::where('nombre', 'like', "%{$search}%")
             ->orWhere('descripcion', 'like', "%{$search}%")
             ->orWhere('ubicacion', 'like', "%{$search}%")
+            ->where('fecha', '>', Carbon::now()) 
             ->with('localidades')
             ->get();
 
@@ -30,9 +31,7 @@ class CompradorController extends Controller
     {
         $localidadId = $request->input('localidad');
         $cantidad = $request->input('cantidad');
-
         $localidad = Localidad::findOrFail($localidadId);
-
         if ($cantidad > $localidad->asientos_disponibles) {
             return redirect()->route('comprador.comprar')->with('error', 'No hay suficientes asientos disponibles.');
         }
@@ -101,6 +100,7 @@ class CompradorController extends Controller
         $search = $request->input('term');
         $eventos = Evento::where('nombre', 'like', "%{$search}%")
             ->orWhere('descripcion', 'like', "%{$search}%")
+
             ->orWhere('ubicacion', 'like', "%{$search}%")
             ->pluck('nombre');
 

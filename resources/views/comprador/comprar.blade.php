@@ -11,7 +11,7 @@
 
 @section('content')
 <div class="container my-5">
-    <h2 class="text-center mb-4 text-primary">Eventos Disponibles</h2>
+    <h2 class="text-center mb-4 text-primary">Eventos</h2>
 
     <!-- Buscador de eventos -->
     <div class="mb-4">
@@ -31,7 +31,13 @@
                     <p class="card-text">{{ $evento->descripcion }}</p>
                     <p class="card-text"><strong>Fecha:</strong> {{ $evento->fecha }}</p>
                     <p class="card-text"><strong>Ubicación:</strong> {{ $evento->ubicacion }}</p>
-                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#comprarModal{{ $evento->id }}">Comprar</button>
+                    @if(Carbon\Carbon::parse($evento->fecha)->isPast())
+                        <span class="badge bg-danger">Evento Finalizado</span>
+                        <button class="btn btn-secondary" disabled>Comprar</button>
+                    @else
+                        <span class="badge bg-success">Evento Activo</span>
+                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#comprarModal{{ $evento->id }}">Comprar</button>
+                    @endif
                 </div>
             </div>
         </div>
@@ -45,13 +51,13 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('comprador.procesarCompra', $evento->id) }}" method="POST">
+                        <form id="formCompra{{ $evento->id }}" action="{{ route('comprador.procesarCompra', $evento->id) }}" method="POST">
                             @csrf
                             <div class="mb-3">
                                 <label for="localidad" class="form-label">Seleccionar Localidad</label>
                                 <select class="form-select" id="localidad" name="localidad" required>
                                     @foreach($evento->localidades as $localidad)
-                                    <option value="{{ $localidad->id }}" data-max="{{ $localidad->asientos_disponibles }}">
+                                    <option value="{{ $localidad->id }}" data-max="{{ $localidad->asientos_disponibles }}" data-precio="{{ $localidad->precio }}">
                                         {{ $localidad->nombre }} - Disponibles: {{ $localidad->asientos_disponibles }} - Precio: ${{ $localidad->precio }}
                                     </option>
                                     @endforeach
@@ -68,7 +74,7 @@
                                     <option value="efectivo">Pasar a Local</option>
                                 </select>
                             </div>
-                            <button type="submit" class="btn btn-primary">Comprar</button>
+                            <button type="button" class="btn btn-primary" onclick="confirmarCompra({{ $evento->id }})">Comprar</button>
                         </form>
                     </div>
                 </div>
@@ -101,24 +107,8 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+<script src="{{ asset('js/comprar.js') }}"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const modals = document.querySelectorAll('.modal');
-        modals.forEach(modal => {
-            modal.addEventListener('shown.bs.modal', function () {
-                const localidadSelect = modal.querySelector('#localidad');
-                const cantidadInput = modal.querySelector('#cantidad');
-
-                localidadSelect.addEventListener('change', function () {
-                    const max = localidadSelect.options[localidadSelect.selectedIndex].getAttribute('data-max');
-                    cantidadInput.setAttribute('max', max);
-                });
-
-                // Inicializar el valor máximo cuando se abre el modal
-                const max = localidadSelect.options[localidadSelect.selectedIndex].getAttribute('data-max');
-                cantidadInput.setAttribute('max', max);
-            });
-        });
-    });
+    const buscarEventosUrl = "{{ route('comprador.buscarEventos') }}";
 </script>
 @endsection
