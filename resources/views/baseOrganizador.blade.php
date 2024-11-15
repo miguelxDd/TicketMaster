@@ -13,7 +13,10 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="/organizador/home">Ticket Master</a>
+            @php 
+            $homeRoute = Auth::user()->tipo_usuario === 'organizador' ? '/organizador/home' : '/comprador/home';
+            @endphp
+            <a class="navbar-brand" href="{{ $homeRoute }}">Ticket Master</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>

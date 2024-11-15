@@ -5,25 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use App\Models\Evento;
+use App\Models\Localidad;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function index()
     {
         Log::info('HomeController index method called');
@@ -31,9 +16,16 @@ class HomeController extends Controller
         $user = Auth::user();
         Log::info('User tipo_usuario', ['tipo_usuario' => $user->tipo_usuario]);
 
-        return view('comprador.home');
+        // Obtener las localidades que han tenido una actualización reciente
+        $localidadesRecientes = Localidad::with('evento')
+            ->orderBy('updated_at', 'desc')
+            ->take(3)
+            ->get();
+
+        return view('comprador.home', compact('localidadesRecientes'));
     }
-    //terminos
+
+    // términos
     public function terminos()
     {
         return view('terminos');
@@ -43,6 +35,4 @@ class HomeController extends Controller
     {
         return view('politicas');
     }
-
-
 }

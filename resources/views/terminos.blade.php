@@ -28,7 +28,7 @@
             <p>Nos reservamos el derecho de modificar estos Términos y Condiciones en cualquier momento. Cualquier cambio será comunicado a los usuarios y entrará en vigencia a partir de su publicación en el sitio web. Te recomendamos revisar esta sección periódicamente.</p>
 
             <h5 class="text-primary mt-4">6. Protección de Datos</h5>
-            <p>La seguridad y confidencialidad de tus datos es importante para nosotros. Consulta nuestra <a href="{{ url('/politica') }}" class="text-decoration-none">Política de Privacidad</a> para conocer cómo recolectamos, usamos y protegemos tu información personal.</p>
+            <p>La seguridad y confidencialidad de tus datos es importante para nosotros. Consulta nuestra <a href="{{ url('/politicas') }}" class="text-decoration-none">Política de Privacidad</a> para conocer cómo recolectamos, usamos y protegemos tu información personal.</p>
 
             <h5 class="text-primary mt-4">7. Contacto</h5>
             <p>Si tienes alguna pregunta sobre estos Términos y Condiciones, puedes comunicarte con nuestro equipo de soporte a través de la sección <a href="{{ url('organizador/contacto') }}" class="text-decoration-none">Contacto</a> en el sitio web.</p>

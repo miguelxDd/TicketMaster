@@ -5,7 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\EventoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\RedirectBasedOnUserType;
-
+use App\Http\Controllers\CompradorController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -30,6 +30,11 @@ Route::middleware(['auth', RedirectBasedOnUserType::class])->group(function () {
     Route::get('organizador/{id}/editar', [EventoController::class, 'editar'])->name('eventos.editar');
     Route::put('organizador/eventos/{id}', [EventoController::class, 'actualizar'])->name('eventos.actualizar');
     Route::delete('organizador/eventos/{id}', [EventoController::class, 'eliminar'])->name('eventos.eliminar');
+    //comprador
+    Route::get('/comprador/comprar', [CompradorController::class, 'comprar'])->name('comprador.comprar');
+    Route::post('/comprador/comprar/{id}', [CompradorController::class, 'procesarCompra'])->name('comprador.procesarCompra');
+    Route::get('/comprador/misEventos', [CompradorController::class, 'misEventos'])->name('comprador.misEventos');
+    Route::get('/comprador/buscarEventos', [CompradorController::class, 'buscarEventos'])->name('comprador.buscarEventos');
     //terminos 
     Route::get('/terminos', [HomeController::class, 'terminos'])->name('terminos');
     Route::get('/politicas', [HomeController::class, 'politicas'])->name('politicas');
