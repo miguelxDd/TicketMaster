@@ -6,8 +6,9 @@ use App\Http\Controllers\EventoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\RedirectBasedOnUserType;
 use App\Http\Controllers\CompradorController;
+
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 // Rutas de autenticación
